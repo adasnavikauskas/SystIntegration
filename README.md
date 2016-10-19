@@ -49,13 +49,11 @@ Installation is simple and quick.
 	- passwd <user> #will create a password for the user
 		- e.g. passwd rv
 		- This will create a password for that user.
-- To switch user, enter the command: su username
+- To switch user, enter the command: su <user>
 
 **2.2 - User Shell Configuration**
 - This step will change the default shell to custom shell of a user.
-	- Enter command: usermod -s /SystIntegration/customShell username	
-		- e.g. usermod -s /SystemsIntegration/customShell rv
-		- This will configure your shell.
-	- Alternatively, you can do this by accessing /etc/passwd using nano and as root.
-	- Then, find the user and at the end of the line of that user, enter the direcotory as above.
+	- Enter command: usermod -s /SystIntegration/MyCustomShell <user>	
+		- e.g. usermod -s /SystemsIntegration/MyCustomShell newuser
+		- This will make "newuser" use the shell customshell
 
