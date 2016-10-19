@@ -38,22 +38,22 @@ Installation is simple and quick.
 		- This will bring you to your root directory
 	- Then enter: git clone "https://github.com/adasnavikauskas/SystIntegration.git"
 	- This will clone into your root direcotry.
-	- This repository should contain a file named customShell which is the script for the custom shell
+	- This repository should contain a file named MyCustomShell which is the script for the custom shell
 	- To update, go to the repo folder and enter the command: git pull
 
 **1.1 - Creating Users**
 - To create a new user, enter the following commands:
 	- useradd -m username
-		- e.g. useradd -m <new user>
+		- e.g. useradd -m "new user"
 		- Flag -m will create and set a home directory for the use and named as the user.
 	- passwd <user> #will create a password for the user
-		- e.g. passwd rv
+		- e.g. passwd newuser
 		- This will create a password for that user.
-- To switch user, enter the command: su <user>
+- To switch user, enter the command: su "user"
 
 **1.2 - User Shell Configuration**
 - This step will change the default shell to custom shell of a user.
-	- Enter command: usermod -s /SystIntegration/MyCustomShell <user>	
+	- Enter command: usermod -s /SystIntegration/MyCustomShell "user"	
 		- e.g. usermod -s /SystemsIntegration/MyCustomShell newuser
 		- This will make "newuser" use the shell customshell
 
