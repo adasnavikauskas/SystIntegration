@@ -41,7 +41,7 @@ Installation is simple and quick.
 	- This repository should contain a file named customShell which is the script for the custom shell
 	- To update, go to the repo folder and enter the command: git pull
 
-**2.1 - Creating Users**
+**1.1 - Creating Users**
 - To create a new user, enter the following commands:
 	- useradd -m username
 		- e.g. useradd -m <new user>
@@ -51,7 +51,7 @@ Installation is simple and quick.
 		- This will create a password for that user.
 - To switch user, enter the command: su <user>
 
-**2.2 - User Shell Configuration**
+**1.2 - User Shell Configuration**
 - This step will change the default shell to custom shell of a user.
 	- Enter command: usermod -s /SystIntegration/MyCustomShell <user>	
 		- e.g. usermod -s /SystemsIntegration/MyCustomShell newuser
