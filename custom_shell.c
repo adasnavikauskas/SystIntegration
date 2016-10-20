@@ -7,6 +7,13 @@
 #include <pwd.h>
 #include <grp.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <sys/dir.h>
+#include <sys/param.h>
+
+#define FALSE 0
+#define TRUE !FALSE
+
 /*
   Function Declarations for builtin shell commands:
  */
@@ -17,6 +24,7 @@ int mshell_pwd(char **args);
 int mshell_ifc(char **args);
 int mshell_dt();
 int mshell_ud();
+int mshell_ls(char **args);
 /*
   List of builtin commands, followed by their corresponding functions.
  */
@@ -27,7 +35,8 @@ char *all_builtin_strings[] = {
   "pw",
   "ifc",
   "dt",
-  "ud"
+  "ud",
+  "ls"
 };
 
 int (*builtin_func[]) (char **) = {
@@ -37,7 +46,8 @@ int (*builtin_func[]) (char **) = {
   &mshell_pwd,
   &mshell_ifc,
   &mshell_dt,
-  &mshell_ud
+  &mshell_ud,
+  &mshell_ls
 };
 
 int mshell_number_of_functions() {
@@ -53,6 +63,22 @@ int mshell_number_of_functions() {
    @param args List of args.  args[0] is "cd".  args[1] is the directory.
    @return Always returns 1, to continue executing.
  */
+int mshell_ls(char **args)
+{
+	char *word;
+	if (args[1] == NULL) {
+		system("ls");
+		return 1;
+	}
+	else{
+		char *word = args[1];
+	        char my_cmd[64];
+        	snprintf(my_cmd, 64, "ls %s", word);
+        	system(my_cmd);
+		return 1;
+	}
+}
+
 int mshell_ud()
 {
   register struct passwd *pw;
@@ -115,7 +141,7 @@ int mshell_ifc(char **args)
   char *word;
   char real;
   if (args[1] == NULL) {
-  system("ifconfig eth1");
+  	system("ifconfig eth1");
   }
   else
   {
