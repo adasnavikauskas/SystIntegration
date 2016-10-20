@@ -115,13 +115,11 @@ int mshell_ifc(char **args)
   char *word;
   char real;
   if (args[1] == NULL) {
-  printf("mshell_ifc called");
   system("ifconfig eth1");
   }
   else
   {
         char *word = args[1];
-        printf("\n%s",word);
         char my_cmd[64];
         snprintf(my_cmd, 64, "ifconfig %s", word);
         system(my_cmd);
@@ -297,6 +295,8 @@ int main(int argc, char **argv)
   // Load config files, if any.
 
   // Run command loop.
+  printf("Welcome to the Custom Shell made by Adas.");
+  printf("\nFor a list of available options type help\n");
   mshell_loop();
   // Perform any shutdown/cleanup.
 
