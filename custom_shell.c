@@ -10,6 +10,9 @@
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/param.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#define KRED  "\x1B[31m"
 
 #define FALSE 0
 #define TRUE !FALSE
@@ -98,7 +101,7 @@ int mshell_ud()
 	 char my_cmd[64];
 	 snprintf(my_cmd, 64, "ls -id %s", cwd);
 	 system(my_cmd);
-         printf("%u,%u,%s,%s", uid,gid,pw->pw_name,g->gr_name);
+         printf("%u,%u,%s,%s\n", uid,gid,pw->pw_name,g->gr_name);
         }
   return 1;
 }
@@ -230,7 +233,6 @@ char *mshell_read_the_input(void)
   while (1) {
     // Read a character
     c = getchar();
-
     // If we hit EOF, replace it with a null character and return.
     if (c == EOF || c == '\n') {
       buffer[position] = '\0';
@@ -321,11 +323,10 @@ int main(int argc, char **argv)
   // Load config files, if any.
 
   // Run command loop.
-  printf("Welcome to the Custom Shell made by Adas.");
+  printf(KRED "Welcome to the Custom Shell made by Adas.");
   printf("\nFor a list of available options type help\n");
   mshell_loop();
   // Perform any shutdown/cleanup.
 
   return EXIT_SUCCESS;
 }
-
