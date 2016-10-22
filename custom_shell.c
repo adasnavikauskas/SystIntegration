@@ -10,8 +10,6 @@
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/param.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #define KRED  "\x1B[31m"
 
 #define FALSE 0
@@ -323,9 +321,12 @@ int main(int argc, char **argv)
   // Load config files, if any.
 
   // Run command loop.
+  //made the terminal for the user with the color red
   printf(KRED "Welcome to the Custom Shell made by Adas.");
   printf("\nFor a list of available options type help\n");
   mshell_loop();
+  //reset colours back to normal for other users
+  system("tput sgr0");
   // Perform any shutdown/cleanup.
 
   return EXIT_SUCCESS;
