@@ -30,6 +30,8 @@ int mshell_dt();
 int mshell_ud();
 int mshell_ls(char **args);
 int mshell_mkdir(char **args);
+int mshell_cl();
+int mshell_touch(char **args);
 /*
   List of builtin commands, followed by their corresponding functions.
  */
@@ -42,7 +44,9 @@ char *all_builtin_strings[] = {
   "dt",
   "ud",
   "ls",
-  "mkdir"
+  "mkdir",
+  "cl",
+  "tch"
 };
 
 int (*builtin_func[]) (char **) = {
@@ -54,7 +58,9 @@ int (*builtin_func[]) (char **) = {
   &mshell_dt,
   &mshell_ud,
   &mshell_ls,
-  &mshell_mkdir
+  &mshell_mkdir,
+  &mshell_cl,
+  &mshell_touch
 };
 
 int mshell_number_of_functions() {
@@ -70,6 +76,40 @@ int mshell_number_of_functions() {
    @param args List of args.  args[0] is "cd".  args[1] is the directory.
    @return Always returns 1, to continue executing.
  */
+int mshell_cl()
+{
+	system("tput clear");
+	return 1;
+}
+
+int mshell_touch(char **args)
+{
+	struct stat st = {0};
+	char *word;
+        if (args[1] == NULL) {
+                printf("Please add the name of the file you want to create\n");
+                return 1;
+        }
+
+        else {
+                if(stat(args[1], &st) == -1)
+                {
+                        char *word = args[1];
+        	        char my_cmd[64];
+	                snprintf(my_cmd, 64, "touch %s", word);
+                	system(my_cmd);
+                	return 1;
+
+                        return 1;
+                }
+                else
+                {
+                        printf("file already exists please try a different name\n");
+                        return 1;
+                }
+        }
+}
+
 int mshell_mkdir(char **args)
 {
 	struct stat st = {0};
