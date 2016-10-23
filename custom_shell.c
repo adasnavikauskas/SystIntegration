@@ -10,6 +10,9 @@
 #include <sys/types.h>
 #include <sys/dir.h>
 #include <sys/param.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdint.h>
 #define KRED  "\x1B[31m"
 
 #define FALSE 0
@@ -26,6 +29,7 @@ int mshell_ifc(char **args);
 int mshell_dt();
 int mshell_ud();
 int mshell_ls(char **args);
+int mshell_mkdir(char **args);
 /*
   List of builtin commands, followed by their corresponding functions.
  */
@@ -37,7 +41,8 @@ char *all_builtin_strings[] = {
   "ifc",
   "dt",
   "ud",
-  "ls"
+  "ls",
+  "mkdir"
 };
 
 int (*builtin_func[]) (char **) = {
@@ -48,7 +53,8 @@ int (*builtin_func[]) (char **) = {
   &mshell_ifc,
   &mshell_dt,
   &mshell_ud,
-  &mshell_ls
+  &mshell_ls,
+  &mshell_mkdir
 };
 
 int mshell_number_of_functions() {
@@ -64,6 +70,28 @@ int mshell_number_of_functions() {
    @param args List of args.  args[0] is "cd".  args[1] is the directory.
    @return Always returns 1, to continue executing.
  */
+int mshell_mkdir(char **args)
+{
+	struct stat st = {0};
+	if (args[1] == NULL) {
+		printf("Please add the name of the directory you want to create\n");
+		return 1;
+	}
+
+	else {
+		if(stat(args[1], &st) == -1)
+		{
+			mkdir(args[1], 0700);
+			return 1;
+		}
+		else
+		{
+			printf("dir already exists please try a different name\n");
+			return 1;
+		}
+	}
+}
+
 int mshell_ls(char **args)
 {
 	char *word;
@@ -88,19 +116,29 @@ int mshell_ud()
   int c;
   register gid_t gid;
   char cwd[1024];
-  
+  struct stat sb;
+
   getcwd(cwd, sizeof(cwd));
   gid = getgid();
   uid = geteuid();
   g = getgrgid(gid);
   pw = getpwuid (uid);
+  char my_cmd[1024];
+
   if (pw)
-        {
-	 char my_cmd[64];
-	 snprintf(my_cmd, 64, "ls -id %s", cwd);
-	 system(my_cmd);
-         printf("%u,%u,%s,%s\n", uid,gid,pw->pw_name,g->gr_name);
-        }
+       {
+        printf("%u,%u,%s,%s,", uid,gid,pw->pw_name,g->gr_name);
+	snprintf(my_cmd, 1024, "ls -id %s | awk '{print $1}'", cwd);
+	printf("\n");
+	printf("UserID: %u\n",uid);
+	printf("GroupID: %u\n",gid);
+        printf("User Name: %s\n",pw->pw_name);
+	printf("Group Name: %s\n",g->gr_name);
+	printf("iNode of current directory: ");
+	
+	system(my_cmd);
+	printf("\n");
+	}
   return 1;
 }
 
@@ -222,6 +260,7 @@ char *mshell_read_the_input(void)
   int position = 0;
   char *buffer = malloc(sizeof(char) * bufsize);
   int c;
+  char *inpt;
 
   if (!buffer) {
     fprintf(stderr, "lsh: allocation error\n");
@@ -231,6 +270,13 @@ char *mshell_read_the_input(void)
   while (1) {
     // Read a character
     c = getchar();
+	/***	attempted to integrate tab completion
+		it works, but bug in code
+		goes into loop and does't execute command
+    inpt = readline("Enter text: ");
+    add_history(inpt);
+    c = (int) (long) inpt;
+	**/
     // If we hit EOF, replace it with a null character and return.
     if (c == EOF || c == '\n') {
       buffer[position] = '\0';
@@ -331,3 +377,4 @@ int main(int argc, char **argv)
 
   return EXIT_SUCCESS;
 }
+
