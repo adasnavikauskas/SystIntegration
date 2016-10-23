@@ -30,7 +30,10 @@ The main features of this shell include:
         E.G ifc lo
 - "ud" -> UserID,GroupID,username,groupname,inode of home directory
 - "dt" -> date and time in a specific format
-
+- "ls" -> list the files and folders of current directory
+- "mkdir" -> create a new directory
+- "cl" -> clear the screen
+- "tch" -> create a new file
 ##Installation
 Installation is simple and quick.
 - This is the most recommended way to install this custom shell and is done following the steps bellow:
@@ -38,22 +41,23 @@ Installation is simple and quick.
 		- This will bring you to your root directory
 	- Then enter: git clone "https://github.com/adasnavikauskas/SystIntegration.git"
 	- This will clone into your root direcotry.
-	- This repository should contain a file named MyCustomShell which is the script for the custom shell
+	- This repository should contain a file named MyCustomShell which is the executable for the custom shell
 	- To update, go to the repo folder and enter the command: git pull
 
 **1.1 - Creating Users**
 - To create a new user, enter the following commands:
 	- useradd -m username
-		- e.g. useradd -m "new user"
+		- e.g. useradd -m newuser
 		- Flag -m will create and set a home directory for the use and named as the user.
 	- passwd <user> #will create a password for the user
 		- e.g. passwd newuser
 		- This will create a password for that user.
 - To switch user, enter the command: su "user"
+		- e.g. su newuser
 
 **1.2 - User Shell Configuration**
 - This step will change the default shell to custom shell of a user.
 	- Enter command: usermod -s /SystIntegration/MyCustomShell "user"	
 		- e.g. usermod -s /SystemsIntegration/MyCustomShell newuser
-		- This will make "newuser" use the shell customshell
+		- This will make "newuser" use the shell MyCustomshell
 
