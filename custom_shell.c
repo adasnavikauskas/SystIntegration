@@ -129,7 +129,6 @@ int mshell_help(char **args)
     		printf("  %s\n", all_builtin_strings[i]);
   	}
 
-  	printf("Use the man command for information on other programs.\n");
   	return 1;
 }
 /**
